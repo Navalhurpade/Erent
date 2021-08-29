@@ -1,0 +1,89 @@
+.navbar-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+  height: 80px;
+  width: 96.5vw;
+  padding: 0.2rem 1.5rem;
+  padding-bottom: 0;
+}
+
+.nav-header {
+  font-weight: 700;
+  font-size: 2.4rem;
+  margin-right: 2rem;
+}
+#nav-dropdown {
+  width: 15rem;
+  margin: 0 20px;
+}
+/* .css-yk16xz-control {
+  height: 50px;
+}
+.css-lpahdxg-control:focus {
+  height: 50px;
+} */
+.search-box {
+  border: 2px solid var(--dark-color);
+  display: flex;
+  justify-items: flex-end;
+  align-items: flex-end;
+  overflow: hidden;
+  border-radius: 4px;
+  width: 25rem;
+  height: 3rem;
+  margin: 0 2rem;
+}
+
+.search-box input {
+  flex-grow: 1;
+  padding: 5px;
+  height: 100%;
+  background-color: transparent;
+  border-style: none;
+}
+
+.search-box input:focus {
+  outline: blue;
+}
+
+.search-box svg {
+  height: 80%;
+  width: 10%;
+  padding: 0.5rem;
+  justify-self: flex-end;
+  background-color: var(--gray);
+}
+
+.icon-container {
+  margin: 0 1.5rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--dark-color);
+  overflow: hidden;
+  height: 3rem;
+}
+
+.icon-container svg {
+  padding: 0 10px;
+  height: 1.7rem;
+  width: 1.7rem;
+}
+
+.icon-container svg:last-child {
+  padding-left: 0;
+}
+
+.icon-container span {
+  font-size: 1.1rem;
+  padding: 3px 7px;
+  color: white;
+  font-weight: 600;
+}
+
+.sell-btn {
+  justify-self: flex-end;
+}

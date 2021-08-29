@@ -1,0 +1,8 @@
+.signup-modal {
+  padding: 1.3rem;
+}
+
+.signup-btn-container {
+  display: flex;
+  justify-content: center;
+}

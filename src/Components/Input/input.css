@@ -1,0 +1,28 @@
+.auth-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+
+.auth-input input:focus,
+input:hover {
+  transition: 0.3s cubic-bezier(0.77, 0, 0.18, 1);
+  background-color: rgba(51, 50, 50, 0.041);
+  outline: none;
+  border: 2px solid rgba(106, 148, 175, 0.295);
+  border-bottom: 3px solid #56baed;
+}
+
+.auth-input input {
+  height: 30px;
+  border-radius: 5px;
+  border: 2px solid var(--gray);
+  padding-left: 5px;
+}
+
+.auth-input label {
+  font-size: 0.8rem;
+  color: var(--dark-color);
+  margin-bottom: 5px;
+}
