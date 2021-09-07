@@ -7,6 +7,7 @@ import { ReactComponent as LocationTag } from "./../../assets/location-tag.svg";
 
 function Select({ options }) {
   const [focused, setFocused] = useState(false);
+  //eslint-disable-next-line
   const [selected, setSelected] = useState("");
   const [search, setSearch] = useState("");
   const [filteredOptions, setFillterdOptions] = useState(options);
@@ -18,9 +19,14 @@ function Select({ options }) {
     setFocused(false);
   };
 
-  const filterOptions = () => {
+  const filterOptions = (event) => {
+    var key = event.keyCode || event.charCode; //detect the backspace
+
     if (!search) setFillterdOptions(options);
-    else
+    //detect the backspace
+    else if (key === 8 && search.length <= 1) {
+      setFillterdOptions(options);
+    } else
       setFillterdOptions(
         options.filter((o, index, array) =>
           o.label.toLowerCase().startsWith(search.toLowerCase())
@@ -58,7 +64,10 @@ function Select({ options }) {
         />
       </div>
       <div
-        style={{ height: focused ? "20rem" : 0, transition: "all 0.5s linear" }}
+        style={{
+          height: focused ? "18.6rem" : 0,
+          transition: "all 0.5s linear",
+        }}
         className="dropdown-options-container"
       >
         {!search && (
@@ -71,6 +80,7 @@ function Select({ options }) {
           <div
             onClick={() => handleSelection(option)}
             className="dropdown-option"
+            key={i}
           >
             <LocationTag className="dropdown-location-tag" />
             <span key={i}>{option.label}</span>

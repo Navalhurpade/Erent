@@ -8,7 +8,6 @@
 
 .dropdown-search-container {
   flex-grow: 1;
-
   display: flex;
   justify-content: center;
   justify-items: center;
@@ -22,6 +21,7 @@
   flex-grow: 1;
   font-size: 1rem;
   padding-left: 5px;
+  background-color: transparent;
 }
 
 .dropdown-search:focus {
@@ -61,32 +61,37 @@
 
 .dropdown-options-container {
   display: flex;
+  background-color: white;
   flex-direction: column;
   position: relative;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
+  width: var(--dropdown-width);
   height: 18rem;
   overflow-y: auto;
   overflow-x: hidden;
   box-shadow: 0 4px 8px 0 rgba(63, 62, 62, 0.2), 0 1px 7px 0 rgba(0, 0, 0, 0.19);
   transition: all 0.5s cubic-bezier(0.64, 0.22, 0.25, 1) 0s;
+  z-index: 1;
 }
 .dropdown-location-tag {
-  padding: 10px 10px 0 10px;
+  padding: 7px 10px;
 }
 .dropdown-option {
   text-align: center;
+  display: flex;
   position: relative;
   cursor: pointer;
   padding: 10px 15px;
   align-items: flex-start;
-  width: 100%;
+  flex-shrink: 1;
+  width: calc(var(--dropdown-width) - 9.5%);
   text-align: left;
+  align-items: center;
 }
 
 .dropdown-option:hover {
-  background-color: rgba(37, 37, 37, 0.164);
+  background-color: rgba(201, 200, 200, 0.164);
 }
 
 .dropdown-mylocation-box {
@@ -94,7 +99,7 @@
   justify-content: flex-start;
   align-items: center;
   padding: 20px 25px;
-  width: 100%;
+  width: calc(var(--dropdown-width) - 15%);
   border-bottom: 0.5px solid #7b9395;
   cursor: pointer;
 }

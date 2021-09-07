@@ -1,0 +1,37 @@
+.post-details-page {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-column-gap: 20px;
+  padding: 20px;
+}
+.carousel-img {
+  width: 300px;
+  min-width: 300px;
+  height: 300px;
+}
+.product-info-box {
+  height: 300px;
+  width: 400px;
+  border: 2px solid var(--dark-color);
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  color: var(--dark-color);
+  border-radius: 4px;
+}
+.post-prize {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.proctuct-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.seller-box img {
+  height: 55px;
+  width: 55px;
+  border-radius: 100px;
+}

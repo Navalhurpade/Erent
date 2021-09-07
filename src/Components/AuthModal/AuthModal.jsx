@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./authModal.css";
 import { ReactComponent as GoogleIcon } from "./../../assets/google.svg";
 import { ReactComponent as FacebookIcon } from "./../../assets/facebook.svg";
@@ -6,48 +6,91 @@ import { ReactComponent as CloseIcon } from "./../../assets/close.svg";
 import LogInModal from "./LoginModal/LoginModal";
 import Button from "../Button/Button";
 import Signup from "./SignupModal/SignupModal";
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-} from "@firebase/auth";
-import { auth } from "../../firebase";
 
-function AuthModal({ visible, onClose }) {
+import AuthContext from "../AuthContext";
+import auth from "../../api/auth";
+
+function AuthModal({ onClose }) {
   const [authMethod, setAuthMethod] = useState("connect");
+  const { parseUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [LoginData, setLoginData] = useState({});
 
-  const handleOAuth = (OauthProvider) => {
-    const provider = new OauthProvider();
-    signInWithPopup(auth, provider)
-      .then((userData) => {
-        console.log("Successfully authenticated !");
-        console.log(userData);
-      })
-      .catch((error) => {
-        console.log("Auth Failed!");
-        console.log(error);
+  const onRegister = async ({ userDetails, confirmPassword }) => {
+    if (userDetails.password !== confirmPassword)
+      return alert("conform password does not match");
+    const formData = new FormData();
+
+    for (let key in userDetails) {
+      formData.set(key, userDetails[key]);
+    }
+
+    setLoading(true);
+    const { ok, problem, status } = await auth.register(formData);
+    setLoading(false);
+    if (!ok) return console.log("faild to register ", problem);
+
+    if (status === 201) {
+      setLoginData({
+        email: userDetails.email,
+        password: userDetails.password,
       });
+      setAuthMethod("login");
+    }
   };
 
+  const onLogin = async (userDetails) => {
+    setLoading(true);
+    const { ok, data, problem, status } = await auth.login(userDetails);
+    setLoading(false);
+    if (!ok) {
+      if (status === 400) alert("invalid email or password ");
+      return console.log(problem);
+    }
+
+    parseUser(data);
+    onClose();
+  };
+
+  const height =
+    authMethod === "connect"
+      ? "310px"
+      : authMethod === "login"
+      ? "325px"
+      : "560px";
+
   return (
-    <div hidden={!visible} id="dark-overlay">
-      <div className="auth-modal">
+    <div id="dark-overlay">
+      <div
+        className="auth-modal"
+        style={{ transition: "height .5s ease", height }}
+      >
         <Header onClose={onClose} />
 
         {authMethod === "connect" && (
           <ConnectModal
             onLogin={() => setAuthMethod("login")}
             onSigup={() => setAuthMethod("signup")}
-            onOAuthLogin={handleOAuth}
-            visible={visible}
           />
         )}
         {authMethod === "login" && (
-          <LogInModal onGoBack={() => setAuthMethod("connect")} />
+          <LogInModal
+            onLogin={onLogin}
+            loading={loading}
+            loginData={LoginData}
+            setLoginData={setLoginData}
+            setLoading={setLoading}
+            onGoBack={() => setAuthMethod("connect")}
+          />
         )}
 
         {authMethod === "signup" && (
-          <Signup onGoBack={() => setAuthMethod("connect")} />
+          <Signup
+            loading={loading}
+            setLoading={setLoading}
+            onSignup={onRegister}
+            onGoBack={() => setAuthMethod("connect")}
+          />
         )}
       </div>
     </div>
@@ -56,7 +99,7 @@ function AuthModal({ visible, onClose }) {
 
 function Header({ onClose }) {
   return (
-    <div className="modal-header">
+    <div className="my-modal-header">
       <span>Login</span>
       <CloseIcon onClick={onClose} />
     </div>
@@ -66,16 +109,8 @@ function Header({ onClose }) {
 function ConnectModal({ onLogin, onSigup, onOAuthLogin }) {
   return (
     <div className="connect-modal-body">
-      <SocialButton
-        onClick={() => onOAuthLogin(FacebookAuthProvider)}
-        Icon={FacebookIcon}
-        title="Connect with Facebook"
-      />
-      <SocialButton
-        onClick={() => onOAuthLogin(GoogleAuthProvider)}
-        Icon={GoogleIcon}
-        title="Connect with Google"
-      />
+      <SocialButton Icon={FacebookIcon} title="Connect with Facebook" />
+      <SocialButton Icon={GoogleIcon} title="Connect with Google" />
 
       <span className="modal-note">OR USE YOUR EMAIL ADDRESS</span>
       <div className="modal-btn-container">
