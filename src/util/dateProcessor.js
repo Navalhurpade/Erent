@@ -4,6 +4,11 @@ function getDiffInDays(date) {
   return diffInMs / (1000 * 60 * 60 * 24);
 }
 
+// function getMonth(date){
+//   const getMonth = new Date(date)
+
+// }
+
 export const getDiffernce = (date) => {
   const time = new Date(date);
 

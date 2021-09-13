@@ -13,7 +13,7 @@ export default function useLocation() {
       },
       { timeout: 10000 }
     );
-
-    return location;
   }, []);
+
+  return location;
 }

@@ -14,36 +14,54 @@ import CreatPost from "./pages/creatPost/CreatPost";
 import useLocation from "./hooks/useLocation";
 import PostDetails from "./pages/PostDetails/PostDetails";
 import NavBar from "./Components/navbar/NavBar";
+import { connect } from "./api/apiServer";
+import ChatPage from "./pages/chatPage/ChatPage";
+import chatsApi from "./api/chats";
 
 function App() {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    if (token) parseUser(token);
+    //Trying to find persisted User !
+    const foundToken =
+      localStorage.getItem("userToken") || sessionStorage.getItem("userToken");
+
+    if (foundToken) {
+      const parsedUser = jwtDecode(foundToken);
+      setUser(parsedUser);
+      connect(parsedUser);
+    }
   }, []);
 
-  const parseUser = (token) => {
-    localStorage.setItem("userToken", token);
+  const login = (token, rememberMe) => {
+    storeUser(token, rememberMe);
     const parsedUser = jwtDecode(token);
     setUser(parsedUser);
+    connect(parsedUser);
+  };
+
+  const storeUser = (token, rememberMe) => {
+    if (rememberMe) localStorage.setItem("userToken", token);
+    else sessionStorage.setItem("userToken", token);
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("userToken");
+    sessionStorage.removeItem("userToken");
   };
 
   return (
     <Router>
       <Switch>
-        <AuthContext.Provider value={{ user, parseUser, logout, location }}>
+        <AuthContext.Provider value={{ user, login, logout, location }}>
           <NavBar />
           <Route exact path="/" component={HomePage} />
           <Route exact path="/post-edit" component={CreatPost} />
           <Route exact path="/post-details" component={PostDetails} />
-          <Redirect to="/" />
+          <Route exact path="/chat-page" component={ChatPage} />
+          {/* <Redirect to="/" /> */}
         </AuthContext.Provider>
       </Switch>
     </Router>

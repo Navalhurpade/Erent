@@ -2,15 +2,15 @@ import React from "react";
 import "./carousel.css";
 import Carousel from "react-bootstrap/Carousel";
 
-function CarouselComponent({ items }) {
+function CarouselComponent({ pictures, title, descrytion }) {
   return (
     <Carousel className="carousel-container">
-      {items.map((picture) => (
+      {pictures.map((picture) => (
         <Carousel.Item>
           <img className="d-block w-100" src={picture} alt="First slide" />
           <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            <h3>{title}</h3>
+            <p>{descrytion}</p>
           </Carousel.Caption>
         </Carousel.Item>
       ))}

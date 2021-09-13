@@ -12,9 +12,13 @@ import auth from "../../api/auth";
 
 function AuthModal({ onClose }) {
   const [authMethod, setAuthMethod] = useState("connect");
-  const { parseUser } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [LoginData, setLoginData] = useState({});
+  const [LoginData, setLoginData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
 
   const onRegister = async ({ userDetails, confirmPassword }) => {
     if (userDetails.password !== confirmPassword)
@@ -48,10 +52,11 @@ function AuthModal({ onClose }) {
       return console.log(problem);
     }
 
-    parseUser(data);
+    authContext.login(data, userDetails.rememberMe);
     onClose();
   };
 
+  //Hardcoded is height requred for aniamtion !
   const height =
     authMethod === "connect"
       ? "310px"

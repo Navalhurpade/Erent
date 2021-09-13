@@ -34,7 +34,14 @@ function LogInModal({ onLogin, onGoBack, loading, loginData, setLoginData }) {
           required
         />
         <div>
-          <input type="checkbox" className="checkbox"></input>
+          <input
+            type="checkbox"
+            value={loginData.rememberMe}
+            onChange={(e) =>
+              setLoginData({ ...loginData, rememberMe: !loginData.rememberMe })
+            }
+            className="checkbox"
+          ></input>
           <label className="login-note">Remember me on this computer</label>
         </div>
         <div className="login-btn-container">
