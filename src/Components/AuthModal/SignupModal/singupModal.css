@@ -1,0 +1,19 @@
+.signup-modal {
+  padding: 1.3rem;
+}
+
+.signup-btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.register-checkbox {
+  height: 4vh;
+  display: flex;
+  margin-right: 15px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.email {
+}

@@ -1,0 +1,47 @@
+.card {
+  background-color: white;
+  box-sizing: border-box;
+  border: 0.2px solid rgb(128, 126, 126);
+  height: 310px;
+  border-radius: 4px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-img {
+  min-height: 180px;
+  max-height: 180px;
+  width: 300px;
+  max-width: 290px;
+}
+.prize {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dark-color);
+  margin-top: 10px;
+}
+.rupeeSign {
+  font-size: 20px;
+}
+.card-title {
+  font-weight: 700;
+  color: var(--dark-color);
+  margin-top: 10px;
+}
+.desc {
+  font-size: small;
+  color: var(--dark-color);
+  margin-top: 10px;
+}
+.date {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(73, 73, 73);
+  position: absolute;
+  bottom: 12px;
+  right: 15px;
+}
