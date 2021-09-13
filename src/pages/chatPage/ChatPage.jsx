@@ -81,11 +81,11 @@ function ChatPage({ location }) {
     setMessage("");
   };
 
-  const updateChats = (newMessage, whare) => {
+  const updateChats = (newMessage, what) => {
     const allchats = [...chats];
 
     const updatedChats = allchats.map((chat) => {
-      if (chat.withUser._id === newMessage[whare]) {
+      if (chat.withUser._id === newMessage[what]) {
         const all = [...chat.chats, newMessage];
         chat.chats = all;
         return chat;
