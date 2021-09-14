@@ -89,7 +89,9 @@
 
 .user-profile {
   height: 50px;
+  /* width: 50px; */
   border-radius: 100px;
+  overflow: hidden;
   object-fit: contain;
   background-color: white;
 }

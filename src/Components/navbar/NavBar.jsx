@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import "./navbar.css";
 import { ReactComponent as SellIcon } from "./../../assets/sell.svg";
 import { ReactComponent as SearchIcon } from "./../../assets/search.svg";
+import { ReactComponent as ChatIcon } from "./../../assets/chats.svg";
+
 import Select from "../Select/Select";
 import AuthModal from "../AuthModal/AuthModal";
 import AuthContext from "../AuthContext";
@@ -30,6 +32,9 @@ function NavBar() {
       <div className="search-box">
         <input type="search" placeholder="   Search mobiles"></input>
         <SearchIcon color="black" />
+      </div>
+      <div onClick={() => history.push("/chat-page")}>
+      <ChatIcon  />
       </div>
       {!user ? (
         <Button

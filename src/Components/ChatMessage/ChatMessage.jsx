@@ -1,11 +1,15 @@
 import React from "react";
+import "./chatsMessage.css";
 
-function ChatMessage({ message, isSelf }) {
+function ChatMessage({ message, isSelf, profile_pic }) {
   return (
     <div
       className={`chat-message ${isSelf ? "send-message" : "recicved-message"}`}
     >
-      <span>{message}</span>
+      <div>
+        <img src={profile_pic} className="message-pic" />
+        <span className="message">{message}</span>
+      </div>
     </div>
   );
 }

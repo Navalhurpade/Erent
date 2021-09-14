@@ -1,14 +1,43 @@
 .chat-message {
-  background-color: var(--light-gray);
-  padding: 5px;
+  border-radius: 8px;
+  display: flex;
+  margin: 10px 0;
 }
 
-.recicved-message {
-  border-radius: 0 5px 5px 5px;
-  background-color: var(--light-gray);
+.send-message div {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
-.send-message {
-  border-radius: 5px 0 5px 5px;
+.recicved-message div {
+  display: flex;
+}
+
+.send-message .message-pic {
+  margin-left: 10px;
+}
+
+.message-pic {
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+  margin-right: 10px;
+}
+
+.recicved-message .message-pic {
+  margin-right: 10px;
+}
+
+.recicved-message .message {
+  border-radius: 0 100px 100px 100px;
   background-color: var(--light-gray);
+  padding: 10px;
+}
+
+.send-message .message {
+  padding: 10px 5px;
+  border-radius: 100px 0 100px 100px;
+  background-color: rgb(72, 160, 241);
+  color: white;
 }

@@ -1,13 +1,16 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { onMessageRecive, sendMessage } from "../../api/apiServer";
-import loadChats from "../../api/chats";
+import React, { useContext, useEffect, useState } from "react";
+
 import AuthContext from "../../Components/AuthContext";
 import ChatMessage from "../../Components/ChatMessage/ChatMessage";
 import Input from "../../Components/Input/Input";
-import { ReactComponent as Chevron } from "./../../assets/chevronDark.svg";
+
 import { ReactComponent as SendIcon } from "./../../assets/send.svg";
 
+import { onMessageRecive, sendMessage } from "../../api/apiServer";
+import loadChats from "../../api/chats";
+
 import "./chatPage.css";
+import UserCard from "../../Components/UserCard/UserCard";
 
 function ChatPage({ location }) {
   const { user } = useContext(AuthContext);
@@ -23,14 +26,17 @@ function ChatPage({ location }) {
       const chatWithSeller = location.state;
 
       //check if loaded chats contains req user
-      let hasUser = false;
-      loadedChats.map((c) => {
-        if (c.withUser._id === chatWithSeller._id) hasUser = true;
-      });
+      let userAlreadyInchat = false;
 
+      if (chatWithSeller !== undefined) {
+        loadedChats.map((c) => {
+          if (c.withUser._id === chatWithSeller._id)
+            return (userAlreadyInchat = true);
+        });
+      }
       //Checking if forwarded from postDetails page and if their req user to chat with
       //if need to chat with new user adding that user to chats to initiate chats with him-her
-      if (!hasUser) {
+      if (userAlreadyInchat === false && chatWithSeller !== undefined) {
         setChats([
           ...loadedChats,
           {
@@ -54,6 +60,7 @@ function ChatPage({ location }) {
   useEffect(() => {
     if (chatsLoaded) {
       onMessageRecive((recivedMessage) => {
+        console.log("recived ", recivedMessage);
         updateChats(recivedMessage, "from");
       });
     }
@@ -71,10 +78,9 @@ function ChatPage({ location }) {
   const handleMessageSend = () => {
     if (!message || !selectedUser) return;
 
-    const { _id: myId } = user;
-    const { _id: sendersId } = findUser(selectedUser).withUser;
+    const reciver = findUser(selectedUser).withUser;
 
-    const messageDetails = new Message(myId, sendersId, message);
+    const messageDetails = new Message(user, reciver, message);
     sendMessage(messageDetails);
 
     updateChats(messageDetails, "to");
@@ -83,14 +89,25 @@ function ChatPage({ location }) {
 
   const updateChats = (newMessage, what) => {
     const allchats = [...chats];
+    let prevChatFound = false;
 
-    const updatedChats = allchats.map((chat) => {
-      if (chat.withUser._id === newMessage[what]) {
+    let updatedChats = allchats.map((chat) => {
+      if (chat.withUser._id === newMessage[what]._id) {
+        prevChatFound = true;
         const all = [...chat.chats, newMessage];
         chat.chats = all;
         return chat;
       } else return chat;
     });
+
+    //If no prevChats are found with this user then adding initiating chats
+    if (prevChatFound === false) {
+      console.log("adding new user !");
+      updatedChats.push({
+        withUser: newMessage[what],
+        chats: [newMessage],
+      });
+    }
 
     setChats(updatedChats);
   };
@@ -111,24 +128,13 @@ function ChatPage({ location }) {
           <span>Chats</span>
         </div>
         {chats.map((chat, i) => (
-          <div
-            key={i}
+          <UserCard
+            user={chat.withUser}
+            selected={chat.withUser._id === selectedUser ? true : false}
+            lastMessage={chat.chats[chat.chats.length - 1]?.message}
             onClick={() => setSelectedUser(chat.withUser._id)}
-            className="user-info"
-          >
-            <img
-              className="img"
-              src={chat.withUser.profile_pic}
-              alt="user-img"
-            />
-            <div className="user-last-message">
-              <span className="user-name">{chat.withUser.name}</span>
-              <span className="lastMessage">
-                {chat.chats[chats.length - 1]?.message}
-              </span>
-            </div>
-            <Chevron />
-          </div>
+            key={i}
+          />
         ))}
       </div>
       <div className="chats-container">
@@ -147,13 +153,21 @@ function ChatPage({ location }) {
         </div>
         {selectedUser ? (
           <div className="chats-messages-container">
-            {findUser(selectedUser).chats.map((m, i) => (
-              <ChatMessage
-                key={i}
-                message={m.message}
-                isSelf={user._id === findUser(selectedUser).withUser._id}
-              />
-            ))}
+            {findUser(selectedUser).chats.map((m, i) => {
+           
+              let isSelf = user._id === m.from._id ? true : false;
+              let picture = isSelf
+                ? user.profile_pic
+                : findUser(selectedUser).withUser.profile_pic;
+              return (
+                <ChatMessage
+                  key={i}
+                  message={m.message}
+                  profile_pic={picture}
+                  isSelf={isSelf}
+                />
+              );
+            })}
           </div>
         ) : (
           <span className="note">Please Select a user and start Chating</span>

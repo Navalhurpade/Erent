@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "../../Components/Button/Button";
 import CarouselComponent from "../../Components/Carousel/Carousel";
 import "./postDetails.css";
 import Chevron from "./../../assets/chevronDark.svg";
 import { useHistory } from "react-router";
+import AuthContext from "../../Components/AuthContext";
 
 function PostDetails({ location }) {
+  const {user} = useContext(AuthContext)
+
   const history = useHistory();
   //Quring state's passed by React router from => HomePage
   const postDetails = location.state.post;
+  
   if (postDetails)
     return (
       <div className="post-details-page">
@@ -29,10 +33,11 @@ function PostDetails({ location }) {
             <span>{postDetails.sellerId.name}</span>
             <img src={Chevron} alt="icon" className="svg" />
           </div>
+          {user?._id !== postDetails.sellerId._id &&
           <Button
             onClick={() => history.push("/chat-page", postDetails.sellerId)}
             title="Chat With Seller"
-          />
+          />}
         </div>
       </div>
     );
