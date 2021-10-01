@@ -1,7 +1,8 @@
 # Erent
-##### * *Erent is a Website for online Hotels booking !
-##### * *User can Also Chat with Other User who are listing their rooms.
+##### *Erent is a Website for online Hotels booking !
+##### *User can Also Chat with Other User who are listing their rooms.
 
+###### backend Code is in separate repo https://github.com/Navalhurpade/Erent-backend/
 
 # Auth Flow With Amazing Modal Animation
 
