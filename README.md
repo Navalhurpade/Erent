@@ -11,13 +11,12 @@ https://user-images.githubusercontent.com/68598490/135631038-b6f4da8e-b471-4a29-
 
 .
 .
-\n
-\n
 .
 
 # Implemented One To One Chats With WebSockets 
 
-https://user-images.githubusercontent.com/68598490/135631032-2d20720e-4292-4d4d-823f-a3a4bdb02ad1.mp4
+
+https://user-images.githubusercontent.com/68598490/135635073-0550b06f-10dd-4d5c-a75f-8f9990772ed5.mp4
 
 .
 .
